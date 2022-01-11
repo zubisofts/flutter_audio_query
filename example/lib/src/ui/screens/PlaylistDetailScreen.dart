@@ -104,6 +104,6 @@ class PlaylistDetailScreenBloc extends BlocBase {
   @override
   void dispose() {
     print("playlistdetails bloc dispose");
-    _playlistSongsSubject?.close();
+    _playlistSongsSubject.close();
   }
 }

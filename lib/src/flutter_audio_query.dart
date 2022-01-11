@@ -410,7 +410,7 @@ class FlutterAudioQuery {
     await channel.invokeMethod("removePlaylist", {
       SOURCE_KEY: SOURCE_PLAYLIST,
       FlutterAudioQuery.PLAYLIST_METHOD_TYPE: PlayListMethodType.WRITE.index,
-      "playlist_id": playlist?.id
+      "playlist_id": playlist.id
     });
   }
 
