@@ -9,7 +9,7 @@ class ArtistListWidget extends StatelessWidget {
   final _callback;
 
   ArtistListWidget(
-      {@required this.artistList, onArtistSelected(final ArtistInfo info)})
+      {required this.artistList, onArtistSelected(final ArtistInfo info)?})
       : _callback = onArtistSelected;
 
   @override
@@ -42,7 +42,7 @@ class ArtistListWidget extends StatelessWidget {
                               "Number of Albums: ${artist.numberOfAlbums}",
                           infoText: "Number of Songs: ${artist.numberOfTracks}",
                           backgroundImage: artist.artistArtPath,
-                          rawImage: snapshot.data,
+                          rawImage: snapshot.data!,
                         );
                       })
                   : CardItemWidget(

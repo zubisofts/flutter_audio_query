@@ -20,10 +20,10 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  NavigationOptions _currentNavigationOption;
-  SearchBarState _currentSearchBarState;
-  TextEditingController _searchController;
-  ApplicationBloc bloc;
+  late NavigationOptions _currentNavigationOption;
+  late SearchBarState _currentSearchBarState;
+  late TextEditingController _searchController;
+  late ApplicationBloc bloc;
 
   static final Map<NavigationOptions, String> _titles = {
     NavigationOptions.ARTISTS: "Artists",
@@ -43,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bloc ??= BlocProvider.of<ApplicationBloc>(context);
+    bloc = BlocProvider.of<ApplicationBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -108,7 +108,7 @@ class _MainScreenState extends State<MainScreen> {
                     Icons.sort,
                   ),
                   tooltip: "${_titles[snapshot.data]} Sort Type",
-                  onPressed: () => _displaySortChooseDialog(snapshot.data),
+                  onPressed: () => _displaySortChooseDialog(snapshot.data!),
                 );
               }),
         ],
@@ -118,7 +118,7 @@ class _MainScreenState extends State<MainScreen> {
         stream: bloc.currentNavigationOption,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            _currentNavigationOption = snapshot.data;
+            _currentNavigationOption = snapshot.data!;
 
             switch (_currentNavigationOption) {
               case NavigationOptions.ARTISTS:
@@ -133,12 +133,12 @@ class _MainScreenState extends State<MainScreen> {
                       return Utility.createDefaultInfoWidget(
                           CircularProgressIndicator());
 
-                    return (snapshot.data.isEmpty)
+                    return (snapshot.data!.isEmpty)
                         ? NoDataWidget(
                             title: "There is no Artists",
                           )
                         : ArtistListWidget(
-                            artistList: snapshot.data,
+                            artistList: snapshot.data!,
                             onArtistSelected: _openArtistPage);
                   },
                 );
@@ -155,13 +155,13 @@ class _MainScreenState extends State<MainScreen> {
                       return Utility.createDefaultInfoWidget(
                           CircularProgressIndicator());
 
-                    return (snapshot.data.isEmpty)
+                    return (snapshot.data!.isEmpty)
                         ? NoDataWidget(
                             title: "There is no Albums",
                           )
                         : AlbumGridWidget(
                             onAlbumClicked: _openAlbumPage,
-                            albumList: snapshot.data);
+                            albumList: snapshot.data!);
                   },
                 );
 
@@ -177,12 +177,12 @@ class _MainScreenState extends State<MainScreen> {
                       return Utility.createDefaultInfoWidget(
                           CircularProgressIndicator());
 
-                    return (snapshot.data.isEmpty)
+                    return (snapshot.data!.isEmpty)
                         ? NoDataWidget(
                             title: "There is no Genres",
                           )
                         : GenreListWidget(
-                            onTap: _openGenrePage, genreList: snapshot.data);
+                            onTap: _openGenrePage, genreList: snapshot.data!);
                   },
                 );
 
@@ -198,11 +198,11 @@ class _MainScreenState extends State<MainScreen> {
                         return Utility.createDefaultInfoWidget(
                             CircularProgressIndicator());
 
-                      return (snapshot.data.isEmpty)
+                      return (snapshot.data!.isEmpty)
                           ? NoDataWidget(
                               title: "There is no Songs",
                             )
-                          : SongListWidget(songList: snapshot.data);
+                          : SongListWidget(songList: snapshot.data!);
                     });
 
               case NavigationOptions.PLAYLISTS:
@@ -217,12 +217,12 @@ class _MainScreenState extends State<MainScreen> {
                       return Utility.createDefaultInfoWidget(
                           CircularProgressIndicator());
 
-                    return (snapshot.data.isEmpty)
+                    return (snapshot.data!.isEmpty)
                         ? NoDataWidget(
                             title: "There is no Playlist",
                           )
                         : PlaylistListWidget(
-                            appBloc: bloc, dataList: snapshot.data);
+                            appBloc: bloc, dataList: snapshot.data!);
                   },
                 );
             }
@@ -261,7 +261,7 @@ class _MainScreenState extends State<MainScreen> {
           initialData: _currentNavigationOption,
           stream: bloc.currentNavigationOption,
           builder: (context, snapshot) {
-            if (snapshot.hasData) _currentNavigationOption = snapshot.data;
+            if (snapshot.hasData) _currentNavigationOption = snapshot.data!;
 
             return BottomNavigationBar(
               currentIndex: _currentNavigationOption.index,
@@ -315,7 +315,7 @@ class _MainScreenState extends State<MainScreen> {
             title: "${_titles[option]} Sort Options",
             initialSelectedIndex:
                 bloc.getLastSortSelectionChooseBasedInNavigation(option),
-            options: ApplicationBloc.sortOptionsMap[option],
+            options: ApplicationBloc.sortOptionsMap[option]!,
             onChange: (index) {
               switch (option) {
                 case NavigationOptions.ARTISTS:
@@ -375,7 +375,7 @@ class _MainScreenState extends State<MainScreen> {
                     onAlbumClicked: (album) {
                       _openArtistAlbumPage(artist, album);
                     },
-                    albumList: snapshot.data);
+                    albumList: snapshot.data!);
               }),
         ),
       ),
@@ -399,7 +399,7 @@ class _MainScreenState extends State<MainScreen> {
                   return Utility.createDefaultInfoWidget(
                       CircularProgressIndicator());
 
-                return SongListWidget(songList: snapshot.data);
+                return SongListWidget(songList: snapshot.data!);
               }),
         ),
       ),
@@ -421,7 +421,7 @@ class _MainScreenState extends State<MainScreen> {
                   return Utility.createDefaultInfoWidget(
                       CircularProgressIndicator());
 
-                return SongListWidget(songList: snapshot.data);
+                return SongListWidget(songList: snapshot.data!);
               }),
         ),
       ),

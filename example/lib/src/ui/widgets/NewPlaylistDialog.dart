@@ -10,7 +10,7 @@ class NewPlaylistDialog extends StatefulWidget {
 }
 
 class _NewPlaylistDialogState extends State<NewPlaylistDialog> {
-  TextEditingController _textEditingController;
+  late TextEditingController _textEditingController;
   final PlaylistDialogBloc bloc = PlaylistDialogBloc();
 
   bool creationStatus = false;
@@ -42,7 +42,7 @@ class _NewPlaylistDialogState extends State<NewPlaylistDialog> {
           return TextFormField(
             decoration: InputDecoration(
               hintText: 'Playlist name',
-              errorText: snapshot.error,
+              errorText: snapshot.error.toString(),
             ),
             autofocus: true,
             controller: _textEditingController,
@@ -77,14 +77,14 @@ class PlaylistDialogBloc extends BlocBase {
         Navigator.pop(context, data);
       }).catchError((error) {
         print('creatoin error ${error.toString()}');
-        _errorController.sink.addError(error?.toString());
+        _errorController.sink.addError(error.toString());
       });
     }
   }
 
   @override
   void dispose() {
-    _errorController?.close();
-    _creationController?.close();
+    _errorController.close();
+    _creationController.close();
   }
 }

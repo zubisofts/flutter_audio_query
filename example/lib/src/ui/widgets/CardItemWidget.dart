@@ -1,17 +1,18 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 class CardItemWidget extends StatelessWidget {
-  final double width, height;
-  final String backgroundImage, title, subtitle, infoText;
-  final List<int> rawImage;
+  final double? width, height;
+  final String? backgroundImage, title, subtitle, infoText;
+  final Uint8List? rawImage;
   static const titleMaxLines = 2;
   static const titleTextStyle =
       TextStyle(fontWeight: FontWeight.w500, fontSize: 16.0);
 
   CardItemWidget(
-      {this.width,
-      this.height,
+      {this.width = 100,
+      this.height = 100,
       this.backgroundImage,
       this.title = "Title",
       this.rawImage,
@@ -20,20 +21,18 @@ class CardItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasRawImage = !(rawImage == null || rawImage.isEmpty);
+    final hasRawImage = !(rawImage == null || rawImage!.isEmpty);
     final mainContainer = Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: (backgroundImage == null && !hasRawImage)
-              ? AssetImage("assets/no_cover.png")
-              : (hasRawImage)
-                  ? MemoryImage(rawImage) // Image.memory(rawImage)
-                  : FileImage(File(backgroundImage)),
+        image: backgroundImage == null ? DecorationImage(
+          image: hasRawImage
+                  ? MemoryImage(rawImage!) as ImageProvider // Image.memory(rawImage)
+                  : FileImage(File(backgroundImage!)),
           fit: BoxFit.cover,
           alignment: AlignmentDirectional.center,
-        ),
+        ) : null,
       ),
       child: Stack(
         alignment: AlignmentDirectional.bottomCenter,
@@ -47,12 +46,12 @@ class CardItemWidget extends StatelessWidget {
               children: <Widget>[
                 Flexible(
                     child: Text(
-                  title,
+                  title ?? '',
                   maxLines: titleMaxLines,
                   style: titleTextStyle,
                 )),
-                Flexible(child: Text(subtitle)),
-                Flexible(child: Text(infoText)),
+                Flexible(child: Text(subtitle ?? '')),
+                Flexible(child: Text(infoText ?? '')),
               ],
             ),
           ),

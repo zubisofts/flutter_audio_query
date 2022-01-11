@@ -10,8 +10,8 @@ class AlbumGridWidget extends StatelessWidget {
   final List<AlbumInfo> dataList;
 
   AlbumGridWidget(
-      {@required List<AlbumInfo> albumList,
-      onAlbumClicked(final AlbumInfo info)})
+      {required List<AlbumInfo> albumList,
+      required onAlbumClicked(final AlbumInfo info)})
       : _onItemTap = onAlbumClicked,
         dataList = albumList;
 
@@ -48,7 +48,7 @@ class AlbumGridWidget extends StatelessWidget {
                           subtitle: "Number of Songs: ${album.numberOfSongs}",
                           infoText:
                               ("Year: ${album.firstYear ?? album.lastYear ?? ""}"),
-                          rawImage: snapshot.data,
+                          rawImage: snapshot.data!,
                           //backgroundImage: album.albumArt,
                         );
                       })
