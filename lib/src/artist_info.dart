@@ -17,7 +17,7 @@ class ArtistInfo extends DataModel {
   /// Returns the path from an image file that can be used as
   /// artist art or null if there is no one. The image file
   /// is the first artist album art work founded.
-  String get artistArtPath => _data['artist_cover'];
+  String? get artistArtPath => _data['artist_cover'];
 
   @override
   String toString() {
